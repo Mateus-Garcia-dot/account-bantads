@@ -20,7 +20,8 @@ public class AccountController {
     }
 
     @PostMapping
-    public AccountModel createAccount(AccountModel accountModel) {
+    public AccountModel createAccount(@RequestBody AccountModel accountModel) {
+        System.out.println(accountModel);
         return this.accountRepository.save(accountModel);
     }
 
