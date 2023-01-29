@@ -16,7 +16,9 @@ public class AccountController {
 
     @GetMapping
     public List<AccountModel> getAllAccounts() {
-        return this.accountRepository.findAll();
+        List<AccountModel> accountModelList = this.accountRepository.findAll();
+        accountModelList.sort((a, b) -> a.getId().compareTo(b.getId()));
+        return accountModelList;
     }
 
     @GetMapping("/{id}")
