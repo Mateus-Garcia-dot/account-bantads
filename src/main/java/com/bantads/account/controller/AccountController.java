@@ -19,6 +19,11 @@ public class AccountController {
         return this.accountRepository.findAll();
     }
 
+    @GetMapping("/{id}")
+    public AccountModel getAccountById(@PathVariable Long id) {
+        return this.accountRepository.findById(id).orElseThrow();
+    }
+
     @PostMapping
     public AccountModel createAccount(@RequestBody AccountModel accountModel) {
         System.out.println(accountModel);
@@ -34,4 +39,10 @@ public class AccountController {
         account.setSaldo(accountModel.getSaldo());
         return this.accountRepository.save(account);
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteAccount(@PathVariable Long id) {
+        this.accountRepository.deleteById(id);
+    }
+
 }
