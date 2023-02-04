@@ -20,19 +20,13 @@ public class AccountController {
     @GetMapping
     public ResponseEntity<List<AccountModel>> getAllAccounts() {
         List<AccountModel> accountModelList = this.accountRepository.findAll();
-        if (accountModelList.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
         accountModelList.sort((a, b) -> a.getId().compareTo(b.getId()));
         return ResponseEntity.ok(accountModelList);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<AccountModel> getAccountById(@PathVariable Long id) {
-        AccountModel accountModel = this.accountRepository.findById(id).orElse(null);
-        if (accountModel == null) {
-            return ResponseEntity.notFound().build();
-        }
+        AccountModel accountModel = this.accountRepository.findById(id).orElseThrow();
         return ResponseEntity.ok(accountModel);
     }
 
@@ -44,11 +38,7 @@ public class AccountController {
 
     @PutMapping("/{id}")
     public ResponseEntity<AccountModel> updateAccount(@PathVariable Long id, @RequestBody AccountModel accountModel) {
-        AccountModel account = this.accountRepository.findById(id).orElse(null);
-        System.out.println(account);
-        if (account == null) {
-            return ResponseEntity.notFound().build();
-        }
+        AccountModel account = this.accountRepository.findById(id).orElseThrow();
         account.setCliente(accountModel.getCliente());
         account.setGerente(accountModel.getGerente());
         account.setLimite(accountModel.getLimite());
@@ -58,14 +48,7 @@ public class AccountController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteAccount(@PathVariable Long id) {
-        try {
-            this.accountRepository.deleteById(id);
-        } catch(Exception e) {
-            if (e instanceof EmptyResultDataAccessException) {
-                return ResponseEntity.notFound().build();
-            }
-            throw e;
-        }
+        this.accountRepository.deleteById(id);
         return ResponseEntity.ok("Deleted");
     }
 
