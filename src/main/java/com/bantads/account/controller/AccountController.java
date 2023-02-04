@@ -41,7 +41,7 @@ public class AccountController {
         AccountModel account = this.accountRepository.findById(id).orElseThrow();
         account.setCustomer(accountModel.getCustomer());
         account.setManager(accountModel.getManager());
-        account.setLimit(accountModel.getLimit());
+        account.setLimitAmount(accountModel.getLimitAmount());
         account.setBalance(accountModel.getBalance());
         return ResponseEntity.ok(this.accountRepository.save(account));
     }

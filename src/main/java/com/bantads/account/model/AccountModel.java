@@ -14,7 +14,7 @@ public class AccountModel {
 
     private Long customer;
     private Long manager;
-    private Double limit;
+    private Double limitAmount;
     private Double balance;
 
 }
