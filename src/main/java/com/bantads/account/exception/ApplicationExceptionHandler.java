@@ -9,7 +9,6 @@ import org.springframework.web.server.handler.ResponseStatusExceptionHandler;
 
 import java.util.NoSuchElementException;
 
-@Data
 @ControllerAdvice
 public class ApplicationExceptionHandler extends ResponseStatusExceptionHandler {
 
