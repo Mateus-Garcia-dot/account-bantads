@@ -12,9 +12,9 @@ public class AccountModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long cliente;
-    private Long gerente;
-    private Double limite;
-    private Double saldo;
+    private Long customer;
+    private Long manager;
+    private Double limit;
+    private Double balance;
 
 }
