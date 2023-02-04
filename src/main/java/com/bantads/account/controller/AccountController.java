@@ -39,10 +39,10 @@ public class AccountController {
     @PutMapping("/{id}")
     public ResponseEntity<AccountModel> updateAccount(@PathVariable Long id, @RequestBody AccountModel accountModel) {
         AccountModel account = this.accountRepository.findById(id).orElseThrow();
-        account.setCliente(accountModel.getCliente());
-        account.setGerente(accountModel.getGerente());
-        account.setLimite(accountModel.getLimite());
-        account.setSaldo(accountModel.getSaldo());
+        account.setCustomer(accountModel.getCustomer());
+        account.setManager(accountModel.getManager());
+        account.setLimit(accountModel.getLimit());
+        account.setBalance(accountModel.getBalance());
         return ResponseEntity.ok(this.accountRepository.save(account));
     }
 
