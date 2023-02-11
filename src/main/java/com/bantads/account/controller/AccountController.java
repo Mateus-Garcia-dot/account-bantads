@@ -1,13 +1,12 @@
 package com.bantads.account.controller;
 
+import com.bantads.account.config.RabbitMQConfiguration;
 import com.bantads.account.model.AccountModel;
 import com.bantads.account.repository.AccountRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.EmptyStackException;
 import java.util.List;
 
 @AllArgsConstructor
