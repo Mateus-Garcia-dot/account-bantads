@@ -18,11 +18,11 @@ public class AccountConsumer {
 
     @RabbitListener(queues = "${rabbitmq.create}")
     public void createAccount(@RequestBody AccountModel accountModel) {
-        AccountModel addedAccountModel = this.accountRepository.save(accountModel);
+        this.accountRepository.save(accountModel);
     }
 
     @RabbitListener(queues = "${rabbitmq.update}")
-    public void updateAccount(@PathVariable Long id, @RequestBody AccountModel accountModel) {
+    public void updateAccount(@PathVariable String id, @RequestBody AccountModel accountModel) {
         AccountModel account = this.accountRepository.findById(id).orElseThrow();
         account.setCustomer(accountModel.getCustomer());
         account.setManager(accountModel.getManager());
@@ -31,7 +31,7 @@ public class AccountConsumer {
     }
 
     @RabbitListener(queues = "${rabbitmq.delete}")
-    public void deleteAccount(@PathVariable Long id) {
+    public void deleteAccount(@PathVariable String id) {
         this.accountRepository.deleteById(id);
     }
 }

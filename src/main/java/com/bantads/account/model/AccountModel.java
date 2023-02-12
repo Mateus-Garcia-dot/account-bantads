@@ -9,8 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 public class AccountModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String uuid = java.util.UUID.randomUUID().toString();
 
     private Long customer;
     private Long manager;

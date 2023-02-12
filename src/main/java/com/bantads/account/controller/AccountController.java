@@ -19,12 +19,11 @@ public class AccountController {
     @GetMapping
     public ResponseEntity<List<AccountModel>> getAllAccounts() {
         List<AccountModel> accountModelList = this.accountRepository.findAll();
-        accountModelList.sort((a, b) -> a.getId().compareTo(b.getId()));
         return ResponseEntity.ok(accountModelList);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AccountModel> getAccountById(@PathVariable Long id) {
+    public ResponseEntity<AccountModel> getAccountById(@PathVariable String id) {
         AccountModel accountModel = this.accountRepository.findById(id).orElseThrow();
         return ResponseEntity.ok(accountModel);
     }
@@ -36,7 +35,7 @@ public class AccountController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AccountModel> updateAccount(@PathVariable Long id, @RequestBody AccountModel accountModel) {
+    public ResponseEntity<AccountModel> updateAccount(@PathVariable String id, @RequestBody AccountModel accountModel) {
         AccountModel account = this.accountRepository.findById(id).orElseThrow();
         account.setCustomer(accountModel.getCustomer());
         account.setManager(accountModel.getManager());
@@ -46,7 +45,7 @@ public class AccountController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteAccount(@PathVariable Long id) {
+    public ResponseEntity<String> deleteAccount(@PathVariable String id) {
         this.accountRepository.deleteById(id);
         return ResponseEntity.ok("Deleted");
     }
