@@ -11,8 +11,8 @@ public class AccountModel {
     @Id
     private String uuid = java.util.UUID.randomUUID().toString();
 
-    private Long customer;
-    private Long manager;
+    private String customer;
+    private String manager;
     private Double limitAmount;
     private Double balance;
 
