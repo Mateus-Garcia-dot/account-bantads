@@ -25,9 +25,14 @@ public class AccountController {
 
     @GetMapping("/count-manager")
     public ResponseEntity<List<AccountByManager>> countManager() {
-       System.out.println(this.accountRepository.countManager());
-       return null;
+       return ResponseEntity.ok(this.accountRepository.countManager());
     }
+
+    @GetMapping("/no-managers")
+    public ResponseEntity<List<AccountModel>> getNullAccounts() {
+        return ResponseEntity.ok(this.accountRepository.getAccountByManagerIsNull());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<AccountModel> getAccountById(@PathVariable String id) {
         AccountModel accountModel = this.accountRepository.findById(id).orElseThrow();
