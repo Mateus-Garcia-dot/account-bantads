@@ -1,6 +1,7 @@
 package com.bantads.account.controller;
 
 import com.bantads.account.config.RabbitMQConfiguration;
+import com.bantads.account.model.AccountByManager;
 import com.bantads.account.model.AccountModel;
 import com.bantads.account.repository.AccountRepository;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,11 @@ public class AccountController {
         return ResponseEntity.ok(accountModelList);
     }
 
+    @GetMapping("/count-manager")
+    public ResponseEntity<List<AccountByManager>> countManager() {
+       System.out.println(this.accountRepository.countManager());
+       return null;
+    }
     @GetMapping("/{id}")
     public ResponseEntity<AccountModel> getAccountById(@PathVariable String id) {
         AccountModel accountModel = this.accountRepository.findById(id).orElseThrow();
