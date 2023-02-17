@@ -29,6 +29,11 @@ public class AccountConfiguration {
     }
 
     @Bean
+    public Queue patchAccountQueue(@Value("${rabbitmq.patch}") String patchAccountRouting) {
+        return new Queue(patchAccountRouting, true);
+    }
+
+    @Bean
     Binding createAccountBinding(Queue createAccountQueue, DirectExchange exchange, @Value("${rabbitmq.create}") String createAccountRouting) {
         return BindingBuilder.bind(createAccountQueue).to(exchange).with(createAccountRouting);
     }
@@ -41,5 +46,10 @@ public class AccountConfiguration {
     @Bean
     Binding deleteAccountBinding(Queue deleteAccountQueue, DirectExchange exchange, @Value("${rabbitmq.delete}") String deleteAccountRouting) {
         return BindingBuilder.bind(deleteAccountQueue).to(exchange).with(deleteAccountRouting);
+    }
+
+    @Bean
+    Binding patchAccountBinding(Queue patchAccountQueue, DirectExchange exchange, @Value("${rabbitmq.patch}") String patchAccountRouting) {
+        return BindingBuilder.bind(patchAccountQueue).to(exchange).with(patchAccountRouting);
     }
 }
