@@ -1,6 +1,5 @@
 package com.bantads.account.controller;
 
-import com.bantads.account.config.RabbitMQConfiguration;
 import com.bantads.account.model.AccountByManager;
 import com.bantads.account.model.AccountModel;
 import com.bantads.account.repository.AccountRepository;
@@ -15,7 +14,7 @@ import java.util.List;
 @RequestMapping("/account")
 public class AccountController {
 
-    private final AccountRepository accountRepository;
+    private AccountRepository accountRepository;
 
     @GetMapping
     public ResponseEntity<List<AccountModel>> getAllAccounts() {
@@ -59,6 +58,24 @@ public class AccountController {
     public ResponseEntity<String> deleteAccount(@PathVariable String id) {
         this.accountRepository.deleteById(id);
         return ResponseEntity.ok("Deleted");
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<AccountModel> patchAccount(@PathVariable String id, @RequestBody AccountModel accountModel) {
+        AccountModel account = this.accountRepository.findById(id).orElseThrow();
+        if (accountModel.getCustomer() != null) {
+            account.setCustomer(accountModel.getCustomer());
+        }
+        if (accountModel.getManager() != null) {
+            account.setManager(accountModel.getManager());
+        }
+        if (accountModel.getLimitAmount() != null) {
+            account.setLimitAmount(accountModel.getLimitAmount());
+        }
+        if (accountModel.getBalance() != null) {
+            account.setBalance(accountModel.getBalance());
+        }
+        return ResponseEntity.ok(this.accountRepository.save(account));
     }
 
 }
