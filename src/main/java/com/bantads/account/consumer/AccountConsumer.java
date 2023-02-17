@@ -38,9 +38,18 @@ public class AccountConsumer {
     @RabbitListener(queues = "${rabbitmq.patch}")
     public void patchAccount(AccountModel accountModel) {
         AccountModel account = this.accountRepository.findById(accountModel.getUuid()).orElseThrow();
-        account.setCustomer(accountModel.getCustomer());
-        account.setManager(accountModel.getManager());
-        account.setLimitAmount(accountModel.getLimitAmount());
-        account.setBalance(accountModel.getBalance());
+        if (accountModel.getCustomer() != null) {
+            account.setCustomer(accountModel.getCustomer());
+        }
+        if (accountModel.getManager() != null) {
+            account.setManager(accountModel.getManager());
+        }
+        if (accountModel.getLimitAmount() != null) {
+            account.setLimitAmount(accountModel.getLimitAmount());
+        }
+        if (accountModel.getBalance() != null) {
+            account.setBalance(accountModel.getBalance());
+        }
+        ResponseEntity.ok(this.accountRepository.save(account));
     }
 }
