@@ -37,7 +37,11 @@ public class AccountConsumer {
 
     @RabbitListener(queues = "${rabbitmq.patch}")
     public void patchAccount(AccountModel accountModel) {
-        AccountModel account = this.accountRepository.findById(accountModel.getUuid()).orElseThrow();
+        AccountModel account = this.accountRepository.findById(accountModel.getUuid()).orElse(null);
+        System.out.println(account);
+        if (account == null) {
+            return;
+        }
         if (accountModel.getCustomer() != null) {
             account.setCustomer(accountModel.getCustomer());
         }
