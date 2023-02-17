@@ -17,12 +17,12 @@ public class AccountConsumer {
     private final AccountRepository accountRepository;
 
     @RabbitListener(queues = "${rabbitmq.create}")
-    public void createAccount(@RequestBody AccountModel accountModel) {
+    public void createAccount(AccountModel accountModel) {
         this.accountRepository.save(accountModel);
     }
 
     @RabbitListener(queues = "${rabbitmq.update}")
-    public void updateAccount(@PathVariable String id, @RequestBody AccountModel accountModel) {
+    public void updateAccount(String id, AccountModel accountModel) {
         AccountModel account = this.accountRepository.findById(id).orElseThrow();
         account.setCustomer(accountModel.getCustomer());
         account.setManager(accountModel.getManager());
@@ -31,7 +31,16 @@ public class AccountConsumer {
     }
 
     @RabbitListener(queues = "${rabbitmq.delete}")
-    public void deleteAccount(@PathVariable String id) {
+    public void deleteAccount(String id) {
         this.accountRepository.deleteById(id);
+    }
+
+    @RabbitListener(queues = "${rabbitmq.patch}")
+    public void patchAccount(AccountModel accountModel) {
+        AccountModel account = this.accountRepository.findById(accountModel.getUuid()).orElseThrow();
+        account.setCustomer(accountModel.getCustomer());
+        account.setManager(accountModel.getManager());
+        account.setLimitAmount(accountModel.getLimitAmount());
+        account.setBalance(accountModel.getBalance());
     }
 }
