@@ -29,7 +29,7 @@ public class AccountConfiguration {
     }
 
     @Bean
-    public Queue patchAccountQueue(@Value("${rabbitmq.patch}") String patchAccountRouting) {
+    public Queue patchAccountQueue(@Value("${rabbitmq.patch.consumer}") String patchAccountRouting) {
         return new Queue(patchAccountRouting, true);
     }
 
@@ -49,7 +49,7 @@ public class AccountConfiguration {
     }
 
     @Bean
-    Binding patchAccountBinding(Queue patchAccountQueue, DirectExchange exchange, @Value("${rabbitmq.patch}") String patchAccountRouting) {
+    Binding patchAccountBinding(Queue patchAccountQueue, DirectExchange exchange, @Value("${rabbitmq.patch.consumer}") String patchAccountRouting) {
         return BindingBuilder.bind(patchAccountQueue).to(exchange).with(patchAccountRouting);
     }
 }

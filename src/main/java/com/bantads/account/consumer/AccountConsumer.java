@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Data
 @Service
 public class AccountConsumer {
@@ -35,25 +37,23 @@ public class AccountConsumer {
         this.accountRepository.deleteById(id);
     }
 
-    @RabbitListener(queues = "${rabbitmq.patch}")
-    public void patchAccount(AccountModel accountModel) {
-        AccountModel account = this.accountRepository.findById(accountModel.getUuid()).orElse(null);
-        System.out.println(account);
-        if (account == null) {
+    @RabbitListener(queues = "${rabbitmq.patch.consumer}")
+    public void patchAccountConsumer(AccountModel accountModel) {
+        List<AccountModel> accounts = this.accountRepository.findByConsumerId(accountModel.getCustomer());
+        if (accounts.isEmpty()) {
             return;
         }
-        if (accountModel.getCustomer() != null) {
-            account.setCustomer(accountModel.getCustomer());
+        for (AccountModel account : accounts) {
+            if (accountModel.getManager() != null) {
+                account.setManager(accountModel.getManager());
+            }
+            if (accountModel.getLimitAmount() != null) {
+                account.setLimitAmount(accountModel.getLimitAmount());
+            }
+            if (accountModel.getBalance() != null) {
+                account.setBalance(accountModel.getBalance());
+            }
+            this.accountRepository.save(account);
         }
-        if (accountModel.getManager() != null) {
-            account.setManager(accountModel.getManager());
-        }
-        if (accountModel.getLimitAmount() != null) {
-            account.setLimitAmount(accountModel.getLimitAmount());
-        }
-        if (accountModel.getBalance() != null) {
-            account.setBalance(accountModel.getBalance());
-        }
-        ResponseEntity.ok(this.accountRepository.save(account));
     }
 }
