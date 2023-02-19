@@ -62,20 +62,24 @@ public class AccountController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<AccountModel> patchAccount(@PathVariable String id, @RequestBody AccountModel accountModel) {
-        AccountModel account = this.accountRepository.findById(id).orElseThrow();
-        if (accountModel.getCustomer() != null) {
-            account.setCustomer(accountModel.getCustomer());
+        System.out.println(accountModel);
+        List<AccountModel> accounts = this.accountRepository.findByConsumerId(id);
+        System.out.println(accounts);
+        if (accounts.isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
-        if (accountModel.getManager() != null) {
-            account.setManager(accountModel.getManager());
+        for (AccountModel account : accounts) {
+            if (accountModel.getManager() != null) {
+                account.setManager(accountModel.getManager());
+            }
+            if (accountModel.getLimitAmount() != null) {
+                account.setLimitAmount(accountModel.getLimitAmount());
+            }
+            if (accountModel.getBalance() != null) {
+                account.setBalance(accountModel.getBalance());
+            }
+            this.accountRepository.save(account);
         }
-        if (accountModel.getLimitAmount() != null) {
-            account.setLimitAmount(accountModel.getLimitAmount());
-        }
-        if (accountModel.getBalance() != null) {
-            account.setBalance(accountModel.getBalance());
-        }
-        return ResponseEntity.ok(this.accountRepository.save(account));
+        return ResponseEntity.ok().build();
     }
-
 }

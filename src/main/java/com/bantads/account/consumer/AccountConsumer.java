@@ -1,14 +1,11 @@
 package com.bantads.account.consumer;
 
 
-import com.bantads.account.config.RabbitMQConfiguration;
 import com.bantads.account.model.AccountModel;
 import com.bantads.account.repository.AccountRepository;
 import lombok.Data;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -39,7 +36,9 @@ public class AccountConsumer {
 
     @RabbitListener(queues = "${rabbitmq.patch.consumer}")
     public void patchAccountConsumer(AccountModel accountModel) {
+        System.out.println(accountModel);
         List<AccountModel> accounts = this.accountRepository.findByConsumerId(accountModel.getCustomer());
+        System.out.println(accounts);
         if (accounts.isEmpty()) {
             return;
         }
