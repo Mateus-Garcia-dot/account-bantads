@@ -55,4 +55,10 @@ public class AccountConsumer {
             this.accountRepository.save(account);
         }
     }
+
+    @RabbitListener(queues = "${rabbitmq.delete.manager}")
+    public void deleteManager(String managerId) {
+        this.accountRepository.nullifyManager(managerId);
+    }
+
 }

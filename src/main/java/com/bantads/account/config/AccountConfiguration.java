@@ -33,6 +33,10 @@ public class AccountConfiguration {
         return new Queue(patchAccountRouting, true);
     }
 
+    @Bean Queue deleteAccountConsumerQueue(@Value("${rabbitmq.delete.manager}") String deleteAccountConsumerRouting) {
+        return new Queue(deleteAccountConsumerRouting, true);
+    }
+
     @Bean
     Binding createAccountBinding(Queue createAccountQueue, DirectExchange exchange, @Value("${rabbitmq.create}") String createAccountRouting) {
         return BindingBuilder.bind(createAccountQueue).to(exchange).with(createAccountRouting);
@@ -51,5 +55,10 @@ public class AccountConfiguration {
     @Bean
     Binding patchAccountBinding(Queue patchAccountQueue, DirectExchange exchange, @Value("${rabbitmq.patch.consumer}") String patchAccountRouting) {
         return BindingBuilder.bind(patchAccountQueue).to(exchange).with(patchAccountRouting);
+    }
+
+    @Bean
+    Binding deleteAccountConsumerBinding(Queue deleteAccountConsumerQueue, DirectExchange exchange, @Value("${rabbitmq.delete.manager}") String deleteAccountConsumerRouting) {
+        return BindingBuilder.bind(deleteAccountConsumerQueue).to(exchange).with(deleteAccountConsumerRouting);
     }
 }

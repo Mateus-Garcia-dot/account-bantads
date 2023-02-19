@@ -82,4 +82,10 @@ public class AccountController {
         }
         return ResponseEntity.ok().build();
     }
+
+    @DeleteMapping("/manager/{id}")
+    public ResponseEntity<String> deleteManager(@PathVariable String id) {
+        this.accountRepository.nullifyManager(id);
+        return ResponseEntity.ok("Deleted");
+    }
 }
