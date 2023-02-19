@@ -12,6 +12,6 @@ public interface AccountRepository extends JpaRepository<AccountModel, String> {
     public List<AccountByManager> countManager();
     @Query("SELECT a FROM AccountModel a WHERE a.manager IS NULL")
     public List<AccountModel> getAccountByManagerIsNull();
-    @Query("SELECT a FROM AccountModel a WHERE a.uuid = ?1")
+    @Query("SELECT a FROM AccountModel a WHERE a.customer = ?1")
     public List<AccountModel> findByConsumerId(String consumerId);
 }
