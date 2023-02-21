@@ -38,6 +38,11 @@ public class AccountController {
         return ResponseEntity.ok(this.accountRepository.getAccountByManagerIsNull());
     }
 
+    @GetMapping("/manager/{id}")
+    public ResponseEntity<List<AccountModel>> getAccountByManager(@PathVariable String id) {
+        return ResponseEntity.ok(this.accountRepository.findByManager(id));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<AccountModel> getAccountById(@PathVariable String id) {
         AccountModel accountModel = this.accountRepository.findById(id).orElseThrow();

@@ -23,4 +23,7 @@ public interface AccountRepository extends JpaRepository<AccountModel, String> {
     @Modifying
     @Query("UPDATE AccountModel a SET a.manager = null WHERE a.manager = ?1")
     public void nullifyManager(String manager);
+
+    @Query("SELECT a FROM AccountModel a WHERE a.manager = ?1")
+    public List<AccountModel> findByManager(String manager);
 }
