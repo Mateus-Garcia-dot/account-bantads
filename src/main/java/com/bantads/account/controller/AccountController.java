@@ -2,7 +2,7 @@ package com.bantads.account.controller;
 
 import com.bantads.account.model.AccountByManager;
 import com.bantads.account.model.AccountModel;
-import com.bantads.account.repository.AccountRepository;
+import com.bantads.account.repository.*;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +15,13 @@ import java.util.List;
 public class AccountController {
 
     private AccountRepository accountRepository;
+
+
+    @GetMapping("/customer/{id}")
+    public ResponseEntity<List<AccountModel>> getAccountByCustomer(@PathVariable String id) {
+        List<AccountModel> accountModelList = this.accountRepository.findByCustomerId(id);
+        return ResponseEntity.ok(accountModelList);
+    }
 
     @GetMapping
     public ResponseEntity<List<AccountModel>> getAllAccounts() {
@@ -63,7 +70,7 @@ public class AccountController {
     @PatchMapping("/{id}")
     public ResponseEntity<AccountModel> patchAccount(@PathVariable String id, @RequestBody AccountModel accountModel) {
         System.out.println(accountModel);
-        List<AccountModel> accounts = this.accountRepository.findByConsumerId(id);
+        List<AccountModel> accounts = this.accountRepository.findByCustomerId(id);
         System.out.println(accounts);
         if (accounts.isEmpty()) {
             return ResponseEntity.notFound().build();

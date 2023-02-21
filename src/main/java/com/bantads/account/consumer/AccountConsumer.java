@@ -37,7 +37,7 @@ public class AccountConsumer {
     @RabbitListener(queues = "${rabbitmq.patch.consumer}")
     public void patchAccountConsumer(AccountModel accountModel) {
         System.out.println(accountModel);
-        List<AccountModel> accounts = this.accountRepository.findByConsumerId(accountModel.getCustomer());
+        List<AccountModel> accounts = this.accountRepository.findByCustomerId(accountModel.getCustomer());
         System.out.println(accounts);
         if (accounts.isEmpty()) {
             return;

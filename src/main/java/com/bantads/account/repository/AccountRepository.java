@@ -18,7 +18,7 @@ public interface AccountRepository extends JpaRepository<AccountModel, String> {
     public List<AccountModel> getAccountByManagerIsNull();
 
     @Query("SELECT a FROM AccountModel a WHERE a.customer = ?1")
-    public List<AccountModel> findByConsumerId(String consumerId);
+    public List<AccountModel> findByCustomerId(String consumerId);
 
     @Modifying
     @Query("UPDATE AccountModel a SET a.manager = null WHERE a.manager = ?1")
