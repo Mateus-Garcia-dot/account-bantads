@@ -16,11 +16,10 @@ public class AccountController {
 
     private AccountRepository accountRepository;
 
-
     @GetMapping("/customer/{id}")
-    public ResponseEntity<List<AccountModel>> getAccountByCustomer(@PathVariable String id) {
+    public ResponseEntity<AccountModel> getAccountByCustomer(@PathVariable String id) {
         List<AccountModel> accountModelList = this.accountRepository.findByCustomerId(id);
-        return ResponseEntity.ok(accountModelList);
+        return ResponseEntity.ok(accountModelList.get(0));
     }
 
     @GetMapping
